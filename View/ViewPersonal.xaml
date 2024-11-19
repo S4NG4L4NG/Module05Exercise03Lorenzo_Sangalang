@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Module07DataAccess.View.ViewPersonal"
+             xmlns:local="clr-namespace:Module07DataAccess.ViewModel"
+             Title="ViewPersonal"
+             BackgroundColor="#121212">
+    <!-- ScrollView to make the page scrollable -->
+    <ScrollView>
+        <VerticalStackLayout HorizontalOptions="CenterAndExpand" Padding="10" Spacing="20">
+
+            <!-- Title -->
+            <Label Text="Personal Information"
+                   FontSize="20"
+                   HorizontalOptions="Center"
+                   TextColor="White"
+                   VerticalOptions="Center" />
+
+            <!-- Search Bar -->
+            <SearchBar Placeholder="Search by Name, Email, or Contact"
+                       Text="{Binding SearchKeyword}"
+                       HorizontalOptions="FillAndExpand"
+                       BackgroundColor="#2C2C2C"
+                       TextColor="White"
+                       MaximumWidthRequest="300" />
+
+            <!-- Employee List -->
+            <ListView SelectedItem="{Binding SelectedPersonal}" 
+                      ItemsSource="{Binding PersonalList}" 
+                      BackgroundColor="#1E1E1E" 
+                      MaximumWidthRequest="350" 
+                      HorizontalOptions="Center">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame BackgroundColor="#1E1E1E"
+                                   BorderColor="Yellow"
+                                   CornerRadius="10"
+                                   Padding="10"
+                                   Margin="0,0,0,10"
+                                   HasShadow="True">
+                                <StackLayout>
+                                    <Label Text="{Binding Name}" FontSize="Medium" TextColor="White"/>
+                                    <Label Text="{Binding email}" FontSize="Small" TextColor="LightGray"/>
+                                    <Label Text="{Binding ContactNo}" FontSize="Small" TextColor="LightGray"/>
+                                    <Label Text="{Binding Address}" FontSize="Small" TextColor="LightGray"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:PersonalViewModel}},
+                                            Path=SelectedEmployeeCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!-- Load Data Button -->
+            <Button Text="Load Data" 
+                    Command="{Binding LoadDataCommand}" 
+                    BackgroundColor="#FFBB33" 
+                    TextColor="Black" 
+                    MaximumWidthRequest="300" />
+
+            <!-- Connection Status Label -->
+            <Label x:Name="ConnectionStatusLabel"
+                   Text="{Binding StatusMessage}"
+                   FontSize="18"
+                   HorizontalOptions="Center"
+                   TextColor="White"/>
+
+            <!-- Add New Employee Section -->
+            <Label Text="Add New Employee" FontSize="Large" TextColor="White" HorizontalOptions="Center"/>
+
+            <Entry Placeholder="Name" Text="{Binding NewPersonalName}" BackgroundColor="#2C2C2C" TextColor="White" MaximumWidthRequest="300"/>
+            <Entry Placeholder="Email" Text="{Binding NewPersonalemail}" BackgroundColor="#2C2C2C" TextColor="White" MaximumWidthRequest="300"/>
+            <Entry Placeholder="ContactNo" Text="{Binding NewPersonalContactNo}" BackgroundColor="#2C2C2C" TextColor="White" MaximumWidthRequest="300"/>
+            <Entry Placeholder="Address" Text="{Binding NewPersonalAddress}" BackgroundColor="#2C2C2C" TextColor="White" MaximumWidthRequest="300"/>
+
+            <!-- Buttons for Add/Delete/Update -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                <Button Text="Add Employee" Command="{Binding AddPersonalCommand}" BackgroundColor="#FFBB33" TextColor="Black" MaximumWidthRequest="150"/>
+                <Button Text="Delete Employee" Command="{Binding DeletePersonCommand}" IsEnabled="{Binding IsPersonSelected}" BackgroundColor="#FFBB33" TextColor="Black" MaximumWidthRequest="150"/>
+                <Button Text="Update Employee" Command="{Binding UpdatePersonCommand}" IsEnabled="{Binding IsPersonSelected}" BackgroundColor="#FFBB33" TextColor="Black" MaximumWidthRequest="150"/>
+            </StackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
